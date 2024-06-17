@@ -13,21 +13,39 @@
 
         nativeBuildInputs = c.nativeBuildInputs ++ opengl.lib;
       };
+
+      python-tools = [
+        (pkgs.python3.withPackages (python-pkgs:
+          with python-pkgs; [
+            autopep8
+            coverage
+            python-lsp-server
+            flake8
+            jedi
+            mypy
+            nox
+            pylsp-mypy
+            pytest
+            rope
+          ]))
+      ];
     in {
       hydraJobs = { inherit (self) packages; };
 
       devShells.${system} = {
         default = devShells.${system}.c;
 
-        c = pkgs.mkShell { packages = c.nativeBuildInputs; };
+        c = mkShell { packages = c.nativeBuildInputs; };
 
-        opengl = pkgs.mkShell {
+        opengl = mkShell {
           packages = opengl.nativeBuildInputs;
 
           shellHook = ''
             LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath opengl.lib}
           '';
         };
+
+        python = mkShell { packages = python-tools; };
       };
     };
 }
