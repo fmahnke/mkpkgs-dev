@@ -41,7 +41,7 @@
           packages = opengl.nativeBuildInputs;
 
           shellHook = ''
-            LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath opengl.lib}
+            export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath opengl.lib}
           '';
         };
 
