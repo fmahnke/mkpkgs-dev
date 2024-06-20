@@ -6,7 +6,10 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in with pkgs;
     let
-      c = { nativeBuildInputs = [ pkg-config ]; };
+      c = {
+        nativeBuildInputs = [ ccache pkg-config ];
+        tools = [ bear clang clang-tools gdb rr ];
+      };
 
       opengl = {
         lib = [ libGL xorg.libX11 systemdLibs ];
@@ -31,8 +34,7 @@
       ];
     in {
       devShells.${system} = {
-
-        c = mkShell { packages = c.nativeBuildInputs; };
+        c = mkShell { packages = c.nativeBuildInputs ++ c.tools; };
 
         opengl = mkShell {
           packages = opengl.nativeBuildInputs;
