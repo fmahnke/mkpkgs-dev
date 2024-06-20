@@ -31,7 +31,6 @@
       ];
     in {
       devShells.${system} = {
-        default = devShells.${system}.c;
 
         c = mkShell { packages = c.nativeBuildInputs; };
 
