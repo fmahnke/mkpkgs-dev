@@ -30,8 +30,6 @@
           ]))
       ];
     in {
-      hydraJobs = { inherit (self) packages; };
-
       devShells.${system} = {
         default = devShells.${system}.c;
 
